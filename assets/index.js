@@ -28,10 +28,12 @@ function displayImage(imageData, size, numToShow) {
       .map((item, index) => {
         return `
          <li>
-            <a id="${item.id}" class="thumbs__link" alt="${
+            <a href="${item.urls["regular"]}" id="${
+          item.id
+        }" class="thumbs__link" alt="${
           item.description ? item.description : conditions.textContent
         }">
-                <img src="${item.urls[size]}" />
+                <img class="thumbs__image" src="${item.urls[size]}" />
             </a>
         </li>
          `;
@@ -64,4 +66,14 @@ function submitForm(e) {
     });
 }
 
+function thumbToMain(e) {
+  e.preventDefault();
+  console.log(e.target);
+  if (e.target.className === "thumbs__image") {
+    const fullImg = mainImage.querySelector("img");
+    return (fullImg.src = e.target.parentNode.getAttribute("href"));
+  }
+}
+
 form.addEventListener("submit", submitForm);
+thumbnails.addEventListener("click", thumbToMain);
