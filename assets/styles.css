@@ -38,7 +38,7 @@
 
   overflow: hidden;
   position: relative;
-  margin: 20px 0;
+  margin: 20px 0 0;
 }
 
 .photo::before {
@@ -231,8 +231,17 @@
   position: absolute;
   right: 20px;
   top: 54px;
+  z-index: 999;
 }
-
+.location-name {
+  text-align: center;
+  font-size: 2em;
+  margin-top: 1px;
+  padding-top: 0px;
+}
+.location-name h1 {
+  margin: 0;
+}
 /*----------------------------------------------------------------------------*/
 /* Mediaquery overrides                                                       */
 /*----------------------------------------------------------------------------*/

@@ -54,6 +54,7 @@ function submitForm(e) {
     })
     .then(function(weatherData) {
       conditions.textContent = weatherData.weather[0].description;
+      document.querySelector('#weather__data-heading').innerHTML = `<h1>${weatherData.name}</h1>`;
       document.querySelector(
         "#weather__data-temp"
       ).innerHTML = `<strong>Temperature: </strong> ${(
@@ -77,7 +78,7 @@ function submitForm(e) {
       document.querySelector(
         "#weather__data-humidity"
       ).innerHTML = `<strong>Humidity: </strong> ${weatherData.main.humidity}%`;
-      return fetch(createRequest("unsplash", conditions.innerHTML));
+      return fetch(createRequest("unsplash", conditions.innerHTML + " " + weatherData.name));
     })
     .then(function(imageResponse) {
       return imageResponse.json();
