@@ -24,6 +24,8 @@ function displayImage(imageData, size, numToShow) {
       html += `
          <img src="${imageArr[i].urls[size]}" />
          `;
+
+    setBgColor(imageArr[i].color);
     }
   } else {
     let markup = imageArr
@@ -44,6 +46,10 @@ function displayImage(imageData, size, numToShow) {
     html = `<ul class="thumbs__list">${markup}</ul>`;
   }
   return html;
+}
+
+function setBgColor(color) {
+  document.querySelector('#weather__data').style.backgroundColor = color;
 }
 
 function submitForm(e) {
@@ -103,6 +109,7 @@ function thumbToMain(e) {
         creditUser.textContent = image.user.name;
         creditUser.setAttribute("href", image.user.links.html);
         creditUser.setAttribute("target", "_blank");
+        setBgColor(image.color);
       }
     });
     return (fullImg.src = e.target.parentNode.getAttribute("href"));
