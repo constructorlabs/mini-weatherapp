@@ -17,11 +17,18 @@ http: function submitForm(e) {
 
   e.preventDefault();
   fetch(createRequest("weather", input.value))
-    .then(function(response) {
-      return response.json();
+    .then(function(weatherResponse) {
+      return weatherResponse.json();
     })
-    .then(function(data) {
-      conditions.textContent = data.weather[0].description;
+    .then(function(weatherData) {
+      conditions.textContent = weatherData.weather[0].description;
+      return fetch(createRequest("unsplash", conditions.textContent));
+    })
+    .then(function(imageResponse) {
+      return imageResponse.json();
+    })
+    .then(function(imageData) {
+      console.log(imageData);
     })
     .catch(function(error) {
       console.log(error);
