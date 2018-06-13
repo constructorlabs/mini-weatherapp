@@ -77,6 +77,7 @@ function thumbToMain(e) {
     imagesCollection.results.forEach(function(image){
       if(image.id === e.target.parentNode.id) {
         creditUser.textContent = image.user.name;
+        creditUser.setAttribute('href', image.user.links.html)
       }
     })
     return (fullImg.src = e.target.parentNode.getAttribute("href"));
