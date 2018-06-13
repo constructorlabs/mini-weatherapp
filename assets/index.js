@@ -6,6 +6,8 @@ const mainImage = document.querySelector("#photo");
 const thumbnails = document.querySelector("#thumbs");
 const input = form.querySelector("#search-tf");
 const conditions = document.querySelector("#conditions");
+const creditUser = document.querySelector('#credit-user');
+let imagesCollection = {};
 
 function createRequest(service, request) {
   return service === "weather"
@@ -58,7 +60,9 @@ function submitForm(e) {
       return imageResponse.json();
     })
     .then(function(imageData) {
+      imagesCollection = imageData;
       mainImage.innerHTML = displayImage(imageData, "full", 1);
+      creditUser.textContent = imageData.results[0].user.name;
       thumbnails.innerHTML = displayImage(imageData, "thumb");
     })
     .catch(function(error) {
@@ -68,9 +72,13 @@ function submitForm(e) {
 
 function thumbToMain(e) {
   e.preventDefault();
-  console.log(e.target);
   if (e.target.className === "thumbs__image") {
     const fullImg = mainImage.querySelector("img");
+    imagesCollection.results.forEach(function(image){
+      if(image.id === e.target.parentNode.id) {
+        creditUser.textContent = image.user.name;
+      }
+    })
     return (fullImg.src = e.target.parentNode.getAttribute("href"));
   }
 }
