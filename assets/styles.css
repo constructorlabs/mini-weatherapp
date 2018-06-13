@@ -223,6 +223,16 @@
   color: #fff;
 }
 
+/* Weather data */
+.weather__data {
+  width: 240px;
+  background-color: #f1f1f1;
+  padding: 20px;
+  position: absolute;
+  right: 20px;
+  top: 54px;
+}
+
 /*----------------------------------------------------------------------------*/
 /* Mediaquery overrides                                                       */
 /*----------------------------------------------------------------------------*/

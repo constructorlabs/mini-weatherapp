@@ -6,7 +6,7 @@ const mainImage = document.querySelector("#photo");
 const thumbnails = document.querySelector("#thumbs");
 const input = form.querySelector("#search-tf");
 const conditions = document.querySelector("#conditions");
-const creditUser = document.querySelector('#credit-user');
+const creditUser = document.querySelector("#credit-user");
 let imagesCollection = {};
 
 function createRequest(service, request) {
@@ -54,7 +54,30 @@ function submitForm(e) {
     })
     .then(function(weatherData) {
       conditions.textContent = weatherData.weather[0].description;
-      return fetch(createRequest("unsplash", conditions.textContent));
+      document.querySelector(
+        "#weather__data-temp"
+      ).innerHTML = `<strong>Temperature: </strong> ${(
+        weatherData.main.temp - 273.15
+      ).toFixed(1)} Celsius`;
+      document.querySelector(
+        "#weather__data-wind-direction"
+      ).innerHTML = `<strong>Wind direction: </strong> ${
+        weatherData.wind.deg
+      } deg`;
+      document.querySelector(
+        "#weather__data-wind-speed"
+      ).innerHTML = `<strong>Wind speed: </strong> ${
+        weatherData.wind.speed
+      } mph`;
+      document.querySelector(
+        "#weather__data-pressure"
+      ).innerHTML = `<strong>Pressure: </strong> ${
+        weatherData.main.pressure
+      } bar`;
+      document.querySelector(
+        "#weather__data-humidity"
+      ).innerHTML = `<strong>Humidity: </strong> ${weatherData.main.humidity}%`;
+      return fetch(createRequest("unsplash", conditions.innerHTML));
     })
     .then(function(imageResponse) {
       return imageResponse.json();
@@ -74,12 +97,13 @@ function thumbToMain(e) {
   e.preventDefault();
   if (e.target.className === "thumbs__image") {
     const fullImg = mainImage.querySelector("img");
-    imagesCollection.results.forEach(function(image){
-      if(image.id === e.target.parentNode.id) {
+    imagesCollection.results.forEach(function(image) {
+      if (image.id === e.target.parentNode.id) {
         creditUser.textContent = image.user.name;
-        creditUser.setAttribute('href', image.user.links.html)
+        creditUser.setAttribute("href", image.user.links.html);
+        creditUser.setAttribute("target", "_blank");
       }
-    })
+    });
     return (fullImg.src = e.target.parentNode.getAttribute("href"));
   }
 }
