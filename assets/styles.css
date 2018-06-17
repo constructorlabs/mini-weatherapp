@@ -38,7 +38,7 @@
 
   overflow: hidden;
   position: relative;
-  margin: 20px 0;
+  margin: 20px 0 0;
 }
 
 .photo::before {
@@ -78,9 +78,9 @@
 
 /* Thumbs
 ------------------------------------------------------------------------------*/
-.thumbs {
+.thumbs ul {
   display: flex;
-
+  list-style-type: none;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
 
@@ -91,9 +91,17 @@
   background: rgba(0, 0, 0, 0.25);
 }
 
+.thumbs ul li {
+  overflow: hidden;
+}
+
+.thumbs ul li:hover {
+  cursor: pointer;
+}
+
 .thumbs__link {
   flex: 0 0 auto;
-
+  display: block;
   animation: 0.25s forwards fade-in;
 
   width: var(--thumb-w);
@@ -101,6 +109,11 @@
   margin: 0 1px;
   opacity: 0;
   background: rgba(0, 0, 0, 0.5);
+}
+
+.thumbs__link img {
+  width: 100%;
+  max-width: 100%;
 }
 
 .thumbs__link.active,
@@ -210,6 +223,25 @@
   color: #fff;
 }
 
+/* Weather data */
+.weather__data {
+  width: 240px;
+  background-color: #f1f1f1;
+  padding: 20px;
+  position: absolute;
+  right: 20px;
+  top: 54px;
+  z-index: 999;
+}
+.location-name {
+  text-align: center;
+  font-size: 2em;
+  margin-top: 1px;
+  padding-top: 0px;
+}
+.weather__data-heading h1 {
+  margin: 0;
+}
 /*----------------------------------------------------------------------------*/
 /* Mediaquery overrides                                                       */
 /*----------------------------------------------------------------------------*/
@@ -218,7 +250,7 @@
     font-weight: 100;
   }
 
-  .thumbs {
+  .thumbs ul {
     justify-content: center;
   }
 
