@@ -1,34 +1,38 @@
-console.log("hello World");
 
-const generateApi = () => {
+const unsplashApi = 'https://api.unsplash.com/search/photos?page=1&query=office&client_id=d1463f432cce4150640ff56ee13c1f94ec0b2993db4395bcb8913f34daeb0d48';
+const thumbParent = document.querySelector(".thumbs");
+const photoParent = document.querySelector(".photo");
+const fullSize = [];
+const formParent = document.querySelector(".search");
+
+// generates the api url with location 
+const generateApi = (location) => {
+    if (location == undefined) {
+        location = "london";
+    }
+    const openWeatherApi = `http://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=a5f7c750d155ca20e98664c5fb5fe010`;
     fetchWeather(openWeatherApi);
     
 };
 
-
+// 
 function getDescription(body) {
-    console.log(body.weather[0].description);
     const weatherDescription = body.weather[0].description;
-    const weatherURL = `https://api.unsplash.com/search/photos?page=1&query=${weatherDescription}&client_id=d1463f432cce4150640ff56ee13c1f94ec0b2993db4395bcb8913f34daeb0d48`
-    
+    const weatherDescriptionNoSpace = weatherDescription.replace(" ", "-");
+    console.log(weatherDescriptionNoSpace);
+    const weatherURL = `https://api.unsplash.com/search/photos?page=1&query=${weatherDescriptionNoSpace}&client_id=d1463f432cce4150640ff56ee13c1f94ec0b2993db4395bcb8913f34daeb0d48`
     fetchPhotos(weatherURL);
-    // console.log(body);
 }
 
-const thumbParent = document.querySelector(".thumbs");
-const photoParent = document.querySelector(".photo");
-const fullSize = [];
-
 function displayPhotos(body) {
-    console.log(body);
     const images = body.results;
-    
+    thumbParent.innerHTML = "";
     images.forEach((image, index) => {
         console.log(image.urls.full);
         thumbParent.innerHTML += `<img class="thumb" id="${index}" src="${image.urls.thumb}">`
-        fullSize[index]=image.urls.regular;
+        fullSize[index] = image.urls.regular;
     })
-        photoParent.innerHTML = `<img class="img" src="${fullSize[0]}">`
+    photoParent.innerHTML = `<img class="img" src="${fullSize[0]}">`
 }
 
 
@@ -37,40 +41,39 @@ thumbParent.addEventListener('click', event => {
     photoParent.innerHTML = `<img class="img" src="${fullSize[event.target.id]}">`
 });
 
+formParent.addEventListener('submit', event => {
+    event.preventDefault();
+    const location = event.target['0'].value;
+    generateApi(location);
+})
 
 
 
-const openWeatherApi = 'http://api.openweathermap.org/data/2.5/weather?q=london&APPID=a5f7c750d155ca20e98664c5fb5fe010';
-const unsplashApi = 'https://api.unsplash.com/search/photos?page=1&query=office&client_id=d1463f432cce4150640ff56ee13c1f94ec0b2993db4395bcb8913f34daeb0d48';
 
-
-
-function fetchWeather(url){
+function fetchWeather(url) {
     // main news body fetch - button changeable
     fetch(url) // by default fetch makes a GET request
-    .then(function(response) {
-        
-        return response.json();
-    })
-    .then(function(body){
-      //  parentNode.innerHTML = "";
-        getDescription(body);
-    });   
+        .then(function (response) {
+
+            return response.json();
+        })
+        .then(function (body) {
+            //  parentNode.innerHTML = "";
+            getDescription(body);
+        });
 }
 
-function fetchPhotos(url){
+function fetchPhotos(url) {
     // main news body fetch - button changeable
     fetch(url) // by default fetch makes a GET request
-    .then(function(response) {
-        
-        return response.json();
-    })
-    .then(function(body){
-      //  parentNode.innerHTML = "";
-        displayPhotos(body);
-    });   
-}
+        .then(function (response) {
 
+            return response.json();
+        })
+        .then(function (body) {
+            //  parentNode.innerHTML = "";
+            displayPhotos(body);
+        });
+}
 
 generateApi();
-console.log(generateApi);
