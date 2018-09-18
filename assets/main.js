@@ -3,13 +3,14 @@ let searchItem = "";
 let thumbChildren = [];
 let cityName = 'london';
 let currentTemperature;
+let weatherIcon;
 const photoClass = document.querySelector('.photo');
 const thumbsClass = document.querySelector('.thumbs');
 const searchClass = document.querySelector('.search');
 const searchInputClass = document.querySelector('.search__input');
 const creditUserClass = document.querySelector('#credit-user');
 const conditionsId = document.querySelector('#conditions');
-
+const weatherIconClass = document.querySelector('.info__item__icon');
 
 searchClass.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -27,7 +28,7 @@ function runFetch (cityName) {
             descriptionOfWeather = body.weather[0].description;
             photoRetrieve(descriptionOfWeather);
             currentTemperature = (body.main.temp - 273.15).toFixed(0);
-            console.log(body);
+            weatherIcon = `http://openweathermap.org/img/w/${body.weather[0].icon}.png`;
         });
 }
 
@@ -55,6 +56,7 @@ function photoCreate(results) {
         creditUserClass.setAttribute('href', results[0].user.portfolio_url);
         creditUserClass.setAttribute('target', "_blank");
     }
+    weatherIconClass.innerHTML = `<img src='${weatherIcon}'/>`;
     conditionsId.textContent = `${descriptionOfWeather} ${currentTemperature}˚C in ${cityName}`;
 }
 

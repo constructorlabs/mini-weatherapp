@@ -130,8 +130,11 @@
 /* Credits
 ------------------------------------------------------------------------------*/
 .info {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-areas: 'icon conditions credits';
+  grid-template-columns: min-content 1fr max-content;
+  align-items: center;
+  grid-gap: 0.5em;
 
   padding: 5px 10px;
   background: rgba(0, 0, 0, 0.5);
@@ -140,6 +143,24 @@
 
 .info__item {
   margin: 0;
+}
+
+.info__item__icon {
+  grid-area: icon;
+  height: 27px;
+}
+
+.info__item__icon img {
+  height: 27px;
+  /*margin-right: 0.5em;*/
+}
+
+.info__item--conditions {
+  grid-area: conditions;
+}
+
+.info__item--credits {
+  grid-area: credits;
 }
 
 .info__item > span {
