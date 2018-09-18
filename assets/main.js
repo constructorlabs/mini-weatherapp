@@ -20,7 +20,7 @@ searchClass.addEventListener('submit', (e) => {
 });
 
 function runFetch (cityName) {
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&APPID=4357f1e42f31557280f32160d930b53b`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&APPID=4357f1e42f31557280f32160d930b53b`)
         .then(function (response) {
             return response.json();
         })
