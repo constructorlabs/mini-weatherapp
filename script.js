@@ -1,4 +1,3 @@
-
 const unsplashApi = 'https://api.unsplash.com/search/photos?page=1&query=office&client_id=d1463f432cce4150640ff56ee13c1f94ec0b2993db4395bcb8913f34daeb0d48';
 const thumbParent = document.querySelector(".thumbs");
 const photoParent = document.querySelector(".photo");
@@ -39,6 +38,13 @@ function displayPhotos(body) {
 thumbParent.addEventListener('click', event => {
     console.log(event.target.id)
     photoParent.innerHTML = `<img class="img" src="${fullSize[event.target.id]}">`
+    const thumbList = document.querySelectorAll(".thumb");
+    thumbList.forEach(thumb => {
+        thumb.classList.remove("active");
+        console.log(thumb);
+    })
+    event.target.classList.toggle("active");
+    console.log(event.target.className);
 });
 
 formParent.addEventListener('submit', event => {
