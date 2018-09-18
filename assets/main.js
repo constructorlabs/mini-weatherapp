@@ -6,6 +6,7 @@ const photoClass = document.querySelector('.photo');
 const thumbsClass = document.querySelector('.thumbs');
 const searchClass = document.querySelector('.search');
 const searchInputClass = document.querySelector('.search__input');
+const creditUserClass = document.querySelector('#credit-user');
 
 
 searchClass.addEventListener('submit', (e) => {
@@ -42,13 +43,18 @@ function photoRetrieve(descriptionOfWeather) {
 
 function photoCreate(results) {
     console.log(results);
-    thumbChildren  = results.map(element => `<img class="thumbs__link thumb" data-fullPhoto="${element.urls.full}" src=${element.urls.thumb}/>`).join('');
+    thumbChildren  = results.map(element => `<img class="thumbs__link thumb" data-name="${element.user.name}" data-portfolio="${element.user.portfolio_url}" data-fullPhoto="${element.urls.full}" src=${element.urls.thumb}/>`).join('');
     thumbsClass.innerHTML = thumbChildren;
     thumbsClass.children[0].className += ' active';
     photoClass.innerHTML = `<img src=${results[0].urls.full}/>`;
+    creditUserClass.textContent = results[0].user.name;
+    creditUserClass.setAttribute('href', results[0].user.portfolio_url);
 }
 
 thumbsClass.addEventListener('click', () => {
     thumbsClass.children[0].classList.remove('active');
     photoClass.innerHTML = `<img src=${event.target.dataset.fullphoto}/>`;
+    console.log(event.target);
+    creditUserClass.textContent = event.target.dataset.name;
+    creditUserClass.setAttribute('href', event.target.dataset.portfolio);
 });
