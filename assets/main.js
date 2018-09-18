@@ -27,7 +27,7 @@ function runFetch (cityName) {
         .then(function (body) {
             descriptionOfWeather = body.weather[0].description;
             photoRetrieve(descriptionOfWeather);
-            currentTemperature = (body.main.temp - 273.15).toFixed(0);
+            currentTemperature = Math.round(body.main.temp - 273.15);
             weatherIcon = `http://openweathermap.org/img/w/${body.weather[0].icon}.png`;
         });
 }
@@ -52,7 +52,6 @@ function photoCreate(results) {
     thumbsClass.children[0].className += ' active';
     photoClass.innerHTML = `<img src=${results[0].urls.full}/>`;
     creditUserClass.textContent = results[0].user.name;
-    console.log(results);
     if (results[0].user.links.html !==  'null') {
         creditUserClass.setAttribute('href', results[0].user.links.html);
         creditUserClass.setAttribute('target', "_blank");
