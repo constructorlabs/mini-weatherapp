@@ -48,7 +48,9 @@ function photoCreate(results) {
     thumbsClass.children[0].className += ' active';
     photoClass.innerHTML = `<img src=${results[0].urls.full}/>`;
     creditUserClass.textContent = results[0].user.name;
-    creditUserClass.setAttribute('href', results[0].user.portfolio_url);
+    if (results[0].user.portfolio_url !==  'null') {
+        creditUserClass.setAttribute('href', results[0].user.portfolio_url);
+    }
     conditionsId.textContent = descriptionOfWeather;
 }
 
@@ -56,5 +58,9 @@ thumbsClass.addEventListener('click', () => {
     thumbsClass.children[0].classList.remove('active');
     photoClass.innerHTML = `<img src=${event.target.dataset.fullphoto}/>`;
     creditUserClass.textContent = event.target.dataset.name;
-    creditUserClass.setAttribute('href', event.target.dataset.portfolio);
+    if (event.target.dataset.portfolio !== "null") {
+        creditUserClass.setAttribute('href', event.target.dataset.portfolio);
+    } else {
+        creditUserClass.setAttribute('href', '#');
+    }
 });
