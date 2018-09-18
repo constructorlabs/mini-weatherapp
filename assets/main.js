@@ -45,11 +45,12 @@ function photoRetrieve(descriptionOfWeather) {
             photoCreate(body.results)
         })
 }
-
+let previousEventTarget;
 function photoCreate(results) {
     thumbChildren  = results.map(element => `<img class="thumbs__link thumb" data-name="${element.user.name}" data-portfolio="${element.user.links.html}" data-fullPhoto="${element.urls.full}" src=${element.urls.thumb}/>`).join('');
     thumbsClass.innerHTML = thumbChildren;
     thumbsClass.children[0].className += ' active';
+    previousEventTarget = thumbsClass.children[0];
     photoClass.innerHTML = `<img src=${results[0].urls.full}/>`;
     creditUserClass.textContent = results[0].user.name;
     if (results[0].user.links.html !==  'null') {
@@ -61,8 +62,8 @@ function photoCreate(results) {
 }
 
 thumbsClass.addEventListener('click', () => {
-    thumbsClass.children[0].classList.remove('active');
-    event.target.classList.toggle('.active');
+    previousEventTarget.classList.toggle('active');
+    event.target.classList.toggle('active');
     photoClass.innerHTML = `<img src=${event.target.dataset.fullphoto}/>`;
     creditUserClass.textContent = event.target.dataset.name;
     if (event.target.dataset.portfolio !== "null") {
@@ -71,4 +72,5 @@ thumbsClass.addEventListener('click', () => {
     } else {
         creditUserClass.setAttribute('href', '#');
     }
+    previousEventTarget = event.target;
 });

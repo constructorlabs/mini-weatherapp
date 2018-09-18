@@ -152,7 +152,6 @@
 
 .info__item__icon img {
   height: 27px;
-  /*margin-right: 0.5em;*/
 }
 
 .info__item--conditions {
@@ -250,7 +249,8 @@
   }
 
   .controls {
-
+    display: grid;
+    justify-content: space-around;
   }
 
   .search,
