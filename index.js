@@ -28,6 +28,8 @@ function fetchWeather(weatherURL) {
 //Removes spaces for url
 function removeSpaces(searchTerm) { 
     console.log(searchTerm);
+    const conditionsRef = document.querySelector('#conditions');
+    conditionsRef.innerHTML = searchTerm;
     return searchTerm.split(" ").join("%20");
     }
 
@@ -40,6 +42,7 @@ function fetchPhoto(serchTerm) {
     .then(body => {
         createThumbnails(body.results);
         createLargeImage(body.results);
+        listenThumbnails(body.results);
     });
 }
 //Creates thumbnail element for each image in array
@@ -56,11 +59,17 @@ function createThumbnails(imageArr) {
 
 //Creates large image and outline thumbnail
 function createLargeImage(imageArr) {
+    console.log(imageArr);
     bigPhotoRef.innerHTML = `<img src=${imageArr[0].urls.regular}>`;
     bigPhotoRef.setAttribute("data-id", imageArr[0].id);
+    const creditUserRef = document.querySelector('#credit-user');
+    creditUserRef.innerHTML = imageArr[0].user.name;
+    creditUserRef.setAttribute('href',imageArr[0].user.links.html);
     const thumb = document.querySelectorAll(".thumb");
-    [...thumb][0].classList.toggle("active");
-    //Listens for thumbnail click.
+    [...thumb][0].classList.toggle("active"); }
+
+//Listens for thumbnail click.
+function listenThumbnails(imageArr) {  
     const thumbImgRef = document.querySelectorAll('.thumb');
     thumbImgRef.forEach(item => {
         item.addEventListener('click', event => {
@@ -69,13 +78,16 @@ function createLargeImage(imageArr) {
                 if (item.id === event.target.getAttribute('id')) {
                     bigPhotoRef.innerHTML = `<img src=${item.urls.regular}>`;
                     bigPhotoRef.setAttribute("data-id", item.id);
+                    const creditUserRef = document.querySelector('#credit-user');
+                    creditUserRef.innerHTML = item.user.name;
+                    creditUserRef.setAttribute('href',item.user.links.html);
                     turnOffBorder();   
                 }
             });
-                
         });
     });
 }
+
 //turns off all other outlines on thumbnails
 function turnOffBorder() {
     const activeBorder = document.querySelectorAll(".active");
