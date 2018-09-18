@@ -2,7 +2,9 @@ const unsplashApi = 'https://api.unsplash.com/search/photos?page=1&query=office&
 const thumbParent = document.querySelector(".thumbs");
 const photoParent = document.querySelector(".photo");
 const fullSize = [];
+const photographerArr = [];
 const formParent = document.querySelector(".search");
+const credits = document.querySelector("#credit-user");
 
 // generates the api url with location 
 const generateApi = (location) => {
@@ -30,10 +32,12 @@ function displayPhotos(body) {
         console.log(image.urls.full);
         thumbParent.innerHTML += `<img class="thumb" id="${index}" src="${image.urls.thumb}">`
         fullSize[index] = image.urls.regular;
+        photographerArr[index] = image.user.name;
+        console.log(photographerArr);
     })
     photoParent.innerHTML = `<img class="img" src="${fullSize[0]}">`
+    credits.textContent = photographerArr[0];
 }
-
 
 thumbParent.addEventListener('click', event => {
     console.log(event.target.id)
@@ -45,6 +49,8 @@ thumbParent.addEventListener('click', event => {
     })
     event.target.classList.toggle("active");
     console.log(event.target.className);
+    credits.textContent = photographerArr[event.target.id];
+
 });
 
 formParent.addEventListener('submit', event => {
@@ -52,9 +58,6 @@ formParent.addEventListener('submit', event => {
     const location = event.target['0'].value;
     generateApi(location);
 })
-
-
-
 
 function fetchWeather(url) {
     // main news body fetch - button changeable
