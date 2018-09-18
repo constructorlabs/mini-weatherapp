@@ -26,6 +26,11 @@ function photoRetrieve(descriptionOfWeather) {
 }
 
 function photoCreate(results) {
-    thumbChildren  = results.map(element => `<img src=${element.urls.thumb}/>`).join('');
+    // console.log(results);
+    thumbChildren  = results.map(element => `<img data-fullPhoto="${element.urls.full}" src=${element.urls.thumb}/>`).join('');
     thumbsClass.innerHTML = thumbChildren;
 }
+
+thumbsClass.addEventListener('click', element => {
+    photoClass.innerHTML = `<img src=${event.target.dataset.fullphoto}/>`;
+})
