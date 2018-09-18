@@ -1,47 +1,48 @@
-//Weather URL set up
-let cityName = "london";
-const weatherURLBase = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}`;
-const APIKey = '73a0db73557b252a663d1be585b65045';
-const weatherURL = `${weatherURLBase}&APPID=${APIKey}`;
-
-//Unsplash URL set up
-
-let query = '';
-const unsplashAPIKey = 'ad9982e29de08ede9a9626876b58459ede10d6946a4a7dd0f66e6cd8da0b4bb4';
-
 //HTML references
 const thumbsRef = document.querySelector('.thumbs');
 const bigPhotoRef = document.querySelector('.photo');
+const geoButtonRef = document.querySelector('.fa-map-marked-alt');
+const form = document.querySelector("form");
+const searchInput = document.querySelector(".search__input");
+const conditionsRef = document.querySelector('#conditions');
+
+//Weather URL set up
+let cityName = "london";
+const weatherURL = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=${cityName}&APPID=73a0db73557b252a663d1be585b65045`;
 
 fetchWeather(weatherURL);
 
 //Fetch weather description 
-
 function fetchWeather(weatherURL) {
     fetch(weatherURL)
     .then(response => response.json())
     .then(body => {
-        fetchPhoto(removeSpaces(body.weather[0].description));
+        console.log(body);
+        fetchPhoto(removeSpaces(cityName + " " + body.weather[0].description + " weather"));
+        populateCondition(body.weather[0].description,body.main.temp);
         });
-    }
+    }  
 
 //Removes spaces for url
 function removeSpaces(searchTerm) { 
-    console.log(searchTerm);
-    const conditionsRef = document.querySelector('#conditions');
-    conditionsRef.innerHTML = searchTerm;
     return searchTerm.split(" ").join("%20");
-    }
+}
 
+//Populate weather condition and temperature on bottom left
+function populateCondition(condition,temp) {
+    conditionsRef.innerHTML = `${condition}, ${Math.round(temp)}°C`;
+}  
 
 //Fetches unsplash Json object
 function fetchPhoto(serchTerm) {
-    const unsplashURL = `https://api.unsplash.com/search/photos?query=${serchTerm}&client_id=${unsplashAPIKey}`;
+    const unsplashURL = `https://api.unsplash.com/search/photos?query=${serchTerm}&client_id=ad9982e29de08ede9a9626876b58459ede10d6946a4a7dd0f66e6cd8da0b4bb4`;
     fetch(unsplashURL)
     .then(response => response.json())
     .then(body => {
         createThumbnails(body.results);
-        createLargeImage(body.results);
+        createLargeImage(body.results[0]);
+        const thumb = document.querySelectorAll(".thumb");
+        [...thumb][0].classList.toggle("active");
         listenThumbnails(body.results);
     });
 }
@@ -54,19 +55,17 @@ function createThumbnails(imageArr) {
         thumb.setAttribute('class','thumb');
         thumb.setAttribute('id',item.id);
         thumbsRef.appendChild(thumb);
-        });
-    }
+    });
+}
 
 //Creates large image and outline thumbnail
-function createLargeImage(imageArr) {
-    console.log(imageArr);
-    bigPhotoRef.innerHTML = `<img src=${imageArr[0].urls.regular}>`;
-    bigPhotoRef.setAttribute("data-id", imageArr[0].id);
+function createLargeImage(item) {
+    bigPhotoRef.innerHTML = `<img src=${item.urls.regular}>`;
+    bigPhotoRef.setAttribute("data-id", item.id);
     const creditUserRef = document.querySelector('#credit-user');
-    creditUserRef.innerHTML = imageArr[0].user.name;
-    creditUserRef.setAttribute('href',imageArr[0].user.links.html);
-    const thumb = document.querySelectorAll(".thumb");
-    [...thumb][0].classList.toggle("active"); }
+    creditUserRef.innerHTML = item.user.name;
+    creditUserRef.setAttribute('href',item.user.links.html);
+}
 
 //Listens for thumbnail click.
 function listenThumbnails(imageArr) {  
@@ -76,11 +75,7 @@ function listenThumbnails(imageArr) {
             event.target.classList.toggle("active");
             imageArr.forEach(item => {
                 if (item.id === event.target.getAttribute('id')) {
-                    bigPhotoRef.innerHTML = `<img src=${item.urls.regular}>`;
-                    bigPhotoRef.setAttribute("data-id", item.id);
-                    const creditUserRef = document.querySelector('#credit-user');
-                    creditUserRef.innerHTML = item.user.name;
-                    creditUserRef.setAttribute('href',item.user.links.html);
+                    createLargeImage(item);
                     turnOffBorder();   
                 }
             });
@@ -98,17 +93,22 @@ function turnOffBorder() {
     })
 }
 
-const form = document.querySelector("form");
-const searchInput = document.querySelector(".search__input");
+//Listen for search submit
 form.addEventListener("submit", function(event){
     event.preventDefault();
     cityName = searchInput.value;
-    const weatherURLBase = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}`;
-    const APIKey = '73a0db73557b252a663d1be585b65045';
-    const weatherURL = `${weatherURLBase}&APPID=${APIKey}`;
-    console.log(weatherURL);
+    const weatherURL = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=${cityName}&APPID=73a0db73557b252a663d1be585b65045`;
     fetchWeather(weatherURL);
- })
+ });
+
+
+ //Listen for location click
+ geoButtonRef.addEventListener('click', event => {
+    navigator.geolocation.getCurrentPosition(position => {
+        const weatherURL = `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${position.coords.latitude}&lon=${position.coords.longitude}&APPID=73a0db73557b252a663d1be585b65045`;
+        fetchWeather(weatherURL);
+    });
+});
 
 
 

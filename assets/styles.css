@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'FF Meta VF';
+  src: url('https://variablefonts.monotype.com/MetaVariableDemo-Set.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal italic;
+  font-weight: 100 900;
+}
+
 .content {
   display: grid;
   grid-template-rows: auto 1fr auto auto auto;
@@ -215,6 +223,21 @@
   color: #fff;
 }
 
+.fas {
+  font-size: 20pt;
+  color: #666;
+  transition: 0.3s;
+}
+
+.fas:hover {
+  color: black;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+}
+
 /*----------------------------------------------------------------------------*/
 /* Mediaquery overrides                                                       */
 /*----------------------------------------------------------------------------*/
@@ -229,7 +252,7 @@
 
   .controls {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
   }
 
   .search,

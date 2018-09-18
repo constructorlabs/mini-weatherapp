@@ -29,11 +29,11 @@ This app blends data from [openweathermap.org](https://openweathermap.org/) and
 
 ## Stretch goals
 
-- [ ] Use the input field that lets us see what the weather is like in other cities
+- [x] Use the input field that lets us see what the weather is like in other cities
 
 - [ ] Add a feature of your choice
 
-- [ ] Display photographer credits in bottom right hand corner with link to their portfolio on Unsplash
+- [x] Display photographer credits in bottom right hand corner with link to their portfolio on Unsplash
 
 - [x] Display white border around thumbnail of image currently displayed as main image using `active` class
 
