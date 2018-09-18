@@ -15,15 +15,28 @@ function getDescription(body) {
     // console.log(body);
 }
 
+const thumbParent = document.querySelector(".thumbs");
+const photoParent = document.querySelector(".photo");
+const fullSize = [];
+
 function displayPhotos(body) {
     console.log(body);
     const images = body.results;
-    const thumbParent = document.querySelector(".thumbs");
+    
     images.forEach((image, index) => {
         console.log(image.urls.full);
         thumbParent.innerHTML += `<img class="thumb" id="${index}" src="${image.urls.thumb}">`
+        fullSize[index]=image.urls.regular;
     })
+        photoParent.innerHTML = `<img class="img" src="${fullSize[0]}">`
 }
+
+
+thumbParent.addEventListener('click', event => {
+    console.log(event.target.id)
+    photoParent.innerHTML = `<img class="img" src="${fullSize[event.target.id]}">`
+});
+
 
 
 
