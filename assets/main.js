@@ -27,6 +27,7 @@ function runFetch (cityName) {
             descriptionOfWeather = body.weather[0].description;
             photoRetrieve(descriptionOfWeather);
             currentTemperature = (body.main.temp - 273.15).toFixed(0);
+            console.log(body);
         });
 }
 
@@ -54,11 +55,12 @@ function photoCreate(results) {
         creditUserClass.setAttribute('href', results[0].user.portfolio_url);
         creditUserClass.setAttribute('target', "_blank");
     }
-    conditionsId.textContent = `${descriptionOfWeather} ${currentTemperature}˚C`;
+    conditionsId.textContent = `${descriptionOfWeather} ${currentTemperature}˚C in ${cityName}`;
 }
 
 thumbsClass.addEventListener('click', () => {
     thumbsClass.children[0].classList.remove('active');
+    event.target.classList.toggle('.active');
     photoClass.innerHTML = `<img src=${event.target.dataset.fullphoto}/>`;
     creditUserClass.textContent = event.target.dataset.name;
     if (event.target.dataset.portfolio !== "null") {
