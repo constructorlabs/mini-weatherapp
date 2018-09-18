@@ -47,13 +47,14 @@ function photoRetrieve(descriptionOfWeather) {
 }
 
 function photoCreate(results) {
-    thumbChildren  = results.map(element => `<img class="thumbs__link thumb" data-name="${element.user.name}" data-portfolio="${element.user.portfolio_url}" data-fullPhoto="${element.urls.full}" src=${element.urls.thumb}/>`).join('');
+    thumbChildren  = results.map(element => `<img class="thumbs__link thumb" data-name="${element.user.name}" data-portfolio="${element.user.links.html}" data-fullPhoto="${element.urls.full}" src=${element.urls.thumb}/>`).join('');
     thumbsClass.innerHTML = thumbChildren;
     thumbsClass.children[0].className += ' active';
     photoClass.innerHTML = `<img src=${results[0].urls.full}/>`;
     creditUserClass.textContent = results[0].user.name;
-    if (results[0].user.portfolio_url !==  'null') {
-        creditUserClass.setAttribute('href', results[0].user.portfolio_url);
+    console.log(results);
+    if (results[0].user.links.html !==  'null') {
+        creditUserClass.setAttribute('href', results[0].user.links.html);
         creditUserClass.setAttribute('target', "_blank");
     }
     weatherIconClass.innerHTML = `<img src='${weatherIcon}'/>`;
