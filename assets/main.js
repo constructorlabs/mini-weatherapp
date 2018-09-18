@@ -26,11 +26,14 @@ function photoRetrieve(descriptionOfWeather) {
 }
 
 function photoCreate(results) {
-    // console.log(results);
-    thumbChildren  = results.map(element => `<img data-fullPhoto="${element.urls.full}" src=${element.urls.thumb}/>`).join('');
+    console.log(results);
+    thumbChildren  = results.map(element => `<img class="thumbs__link thumb" data-fullPhoto="${element.urls.full}" src=${element.urls.thumb}/>`).join('');
     thumbsClass.innerHTML = thumbChildren;
+    thumbsClass.children[0].className += ' active';
+    photoClass.innerHTML = `<img src=${results[0].urls.full}/>`;
 }
 
-thumbsClass.addEventListener('click', element => {
+thumbsClass.addEventListener('click', () => {
+    thumbsClass.children[0].classList.remove('active');
     photoClass.innerHTML = `<img src=${event.target.dataset.fullphoto}/>`;
-})
+});
