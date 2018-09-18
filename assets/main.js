@@ -2,6 +2,7 @@ let descriptionOfWeather = '';
 let searchItem = "";
 let thumbChildren = [];
 let cityName = 'london';
+let currentTemperature;
 const photoClass = document.querySelector('.photo');
 const thumbsClass = document.querySelector('.thumbs');
 const searchClass = document.querySelector('.search');
@@ -25,6 +26,7 @@ function runFetch (cityName) {
         .then(function (body) {
             descriptionOfWeather = body.weather[0].description;
             photoRetrieve(descriptionOfWeather);
+            currentTemperature = (body.main.temp - 273.15).toFixed(0);
         });
 }
 
@@ -50,8 +52,9 @@ function photoCreate(results) {
     creditUserClass.textContent = results[0].user.name;
     if (results[0].user.portfolio_url !==  'null') {
         creditUserClass.setAttribute('href', results[0].user.portfolio_url);
+        creditUserClass.setAttribute('target', "_blank");
     }
-    conditionsId.textContent = descriptionOfWeather;
+    conditionsId.textContent = `${descriptionOfWeather} ${currentTemperature}˚C`;
 }
 
 thumbsClass.addEventListener('click', () => {
@@ -60,6 +63,7 @@ thumbsClass.addEventListener('click', () => {
     creditUserClass.textContent = event.target.dataset.name;
     if (event.target.dataset.portfolio !== "null") {
         creditUserClass.setAttribute('href', event.target.dataset.portfolio);
+        creditUserClass.setAttribute('target', "_blank");
     } else {
         creditUserClass.setAttribute('href', '#');
     }
