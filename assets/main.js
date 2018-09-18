@@ -1,17 +1,32 @@
 let descriptionOfWeather = '';
 let searchItem = "";
 let thumbChildren = [];
+let cityName = 'london';
 const photoClass = document.querySelector('.photo');
 const thumbsClass = document.querySelector('.thumbs');
-fetch('http://api.openweathermap.org/data/2.5/weather?q=london&APPID=4357f1e42f31557280f32160d930b53b')
-.then(function (response) {
-    return response.json();
-})
-.then(function (body) {
-    descriptionOfWeather = body.weather[0].description;
-    photoRetrieve(descriptionOfWeather);
+const searchClass = document.querySelector('.search');
+const searchInputClass = document.querySelector('.search__input');
+
+
+searchClass.addEventListener('submit', (e) => {
+    e.preventDefault();
+    cityName = searchInputClass.value;
+    runFetch(cityName);
+    searchInputClass.value = "";
 });
 
+function runFetch (cityName) {
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&APPID=4357f1e42f31557280f32160d930b53b`)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (body) {
+            descriptionOfWeather = body.weather[0].description;
+            photoRetrieve(descriptionOfWeather);
+        });
+}
+
+runFetch(cityName);
 
 
 function photoRetrieve(descriptionOfWeather) {
