@@ -3,6 +3,7 @@ const thumbParent = document.querySelector(".thumbs");
 const photoParent = document.querySelector(".photo");
 const fullSize = [];
 const photographerArr = [];
+const photographerProfileUrl = [];
 const formParent = document.querySelector(".search");
 const credits = document.querySelector("#credit-user");
 
@@ -33,7 +34,8 @@ function displayPhotos(body) {
         thumbParent.innerHTML += `<img class="thumb" id="${index}" src="${image.urls.thumb}">`
         fullSize[index] = image.urls.regular;
         photographerArr[index] = image.user.name;
-        console.log(photographerArr);
+        photographerProfileUrl[index] = image.user.portfolio_url;
+        console.log(image.user.portfolio_url);
     })
     photoParent.innerHTML = `<img class="img" src="${fullSize[0]}">`
     credits.textContent = photographerArr[0];
@@ -50,6 +52,7 @@ thumbParent.addEventListener('click', event => {
     event.target.classList.toggle("active");
     console.log(event.target.className);
     credits.textContent = photographerArr[event.target.id];
+    credits.setAttribute('href', photographerProfileUrl[event.target.id]);
 
 });
 
